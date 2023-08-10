@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CPD</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CPD.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .mynav_navbar {
+            overflow: hidden;
+            background-color: #059b9a;
+        }
+
+            .mynav_navbar a {
+                float: left;
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+        .mynav_dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+            .mynav_dropdown .mynav_dropbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 14px 16px;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            .mynav_navbar a:hover, .mynav_dropdown:hover .mynav_dropbtn {
+                background-color: #095169;
+            }
+
+        .mynav_dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .mynav_dropdown-content a {
+                float: none;
+                color: #095169;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+
+                .mynav_dropdown-content a:hover {
+                    background-color: #ddd;
+                }
+
+        .mynav_dropdown:hover .mynav_dropdown-content {
+            display: block;
+        }
+        }
+
+    </style>
+
+</head>
+<body>
+    <header>
+        <nav class="mynav_navbar">
+            <div class="">
+                <div class="mynav_navbar">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">CPD</a>
+                    @*--------------Menu---------------*@
+                    <div class="mynav_dropdown"> 
+                        <button class="mynav_dropbtn">
+                            Menu
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="mynav_dropdown-content">
+                            <a class="nav-link " asp-area="" asp-controller="Pessoas" asp-action="Index">Pessoas</a>
+                            <a class="nav-link " asp-area="" asp-controller="Contribuintes" asp-action="Index">Doações</a>
+                            <a class="nav-link " asp-area="" asp-controller="Projetos" asp-action="Index">Projetos</a>
+                          @*  <a class="nav-link " asp-area="" asp-controller="Contribuicao" asp-action="Create">Cadastrar Contribuições</a>*@
+                        </div>
+                    </div>
+                    @*-------------fim Menu-----------------*@
+
+                </div>
+
+            </div>
+
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - CPD - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

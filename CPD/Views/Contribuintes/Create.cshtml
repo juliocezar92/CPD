@@ -1,0 +1,80 @@
+﻿@model CPD.Dominio.Entidades.DTOContribuinte
+@{
+}
+
+<h1>Criar</h1>
+
+<h4>Contribuente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PessoaId" class="control-label">Pessoa:</label>
+                <select asp-for="PessoaId" asp-items="@(new SelectList(Model.ListaDePessoas, "Id", "Nome"))" class="form-control">
+                    <option value="">Selecione uma pessoa</option>
+                </select>
+                <span asp-validation-for="PessoaId" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="PessoaResponsavelId" class="control-label">Pessoa Responsável:</label>
+                    <select asp-for="PessoaResponsavelId" asp-items="@(new SelectList(Model.ListaDepessoasResponsavel, "Id", "Nome"))" class="form-control">
+                        <option value="">Selecione uma responsável</option>
+                    </select>
+                    <span asp-validation-for="PessoaResponsavelId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjetoId" class="control-label">Projeto:</label>
+                    <select asp-for="ProjetoId" asp-items="@(new SelectList(Model?.ListaDeProjetos, "Id", "Nome"))" class="form-control">
+                        <option value="">Selecione o Projeto</option>
+                    </select>
+                    <span asp-validation-for="ProjetoId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ValorContribuicao" class="control-label"></label>
+                    <input type="text" asp-for="ValorContribuicao" class="form-control" />
+                    <span asp-validation-for="ValorContribuicao" class="text-danger"></span>
+                </div>
+                <div>
+                    <label class="control-label">Tipo de Doação:</label><br />
+                    <label><input type="radio" name="Periodicidade" value="Mensal" /> Mensal</label><br />
+                    <label><input type="radio" name="Periodicidade" value="Semanal" /> Semanal</label>
+                    <span asp-validation-for="Periodicidade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DataInicio" class="control-label"></label>
+                    <input asp-for="DataInicio" class="form-control" />
+                    <span asp-validation-for="DataInicio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DataFim" class="control-label"></label>
+                    <input asp-for="DataFim" class="form-control" />
+                    <span asp-validation-for="DataFim" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Criar" class="btn btn-primary" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Cancelar</a>
+</div>
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Contribuintes")';
+        }, 3000); // 3000 milissegundos = 3 segundos
+    </script>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

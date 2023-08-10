@@ -1,0 +1,72 @@
+﻿@using System.Globalization;
+@model CPD.Dominio.Entidades.CreateContribuicaoDto
+
+@{
+    ViewData["Title"] = "Create";
+   
+}
+
+<h1>Criar</h1>
+
+<h4>Contribuição de Doação</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomeContribuinte" class="control-label">Pessoa:</label>
+                <input asp-for="NomeContribuinte" class="form-control" id=pessoasDevotos readonly />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Valor" class="control-label">Valor:</label>
+                <input type="text" asp-for="Valor" class="form-control" id="Valor">
+            </div>
+            <div class="form-group">
+                <label asp-for="ValorLiquido" class="control-label"></label>
+                <input asp-for="ValorLiquido" class="form-control" />
+                <span asp-validation-for="ValorLiquido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataContribuicao" class="control-label"></label>
+                <input  asp-for="DataContribuicao" class="form-control" />
+                <span asp-validation-for="DataContribuicao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tipo de contribuicao:</label><br />
+                <label><input type="radio" name="TipoContribuicao" value="Dinheiro" /> Dinheiro</label><br />
+                <label><input type="radio" name="TipoContribuicao" value="Pix" /> Pix</label>
+                <label><input type="radio" name="TipoContribuicao" value="Credito" /> Crédito</label>
+                <label><input type="radio" name="TipoContribuicao" value="Debito" /> Débito</label>
+                <span asp-validation-for="TipoContribuicao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+            @Html.HiddenFor(x => x.ContribuinteId)
+        </form>
+    </div>
+</div>
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = '@Url.Action("Index", "Contribuicao")';
+        }, 3000); // 3000 milissegundos = 3 segundos
+    </script>
+}
+
+<div>
+    <a asp-action="Index">Cancelar</a>
+</div>
+
+@*@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+*@

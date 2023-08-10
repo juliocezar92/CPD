@@ -1,0 +1,53 @@
+﻿@model IEnumerable<CPD.Dominio.Entidades.Contribuicao>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Doações</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ValorLiquido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataContribuicao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoContribuicao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorLiquido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataContribuicao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoContribuicao)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

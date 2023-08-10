@@ -1,0 +1,81 @@
+﻿@model IEnumerable<CPD.Dominio.Entidades.DTOContribuinte>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<grid style="display: grid; grid-template-columns: 1fr auto;">
+    <div style="grid-column: 1;margin-top:30px">
+        <h1>Contribuintes</h1>
+    </div>
+    <div style="grid-column: 2;">
+        <a asp-action="Create" class="btn custom-button" style="justify-self: end; margin-top:30px">Cadastrar doação</a>
+    </div>
+    <div style="grid-column: 1 / span 2; margin-top:20px">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Pessoa
+                    </th>
+                    <th>
+                        Pessoa Responsável
+                    </th>
+                    <th>
+                        Projeto
+                    </th>
+                    <th>
+                        Valor de Contribuição
+                    </th>
+                    <th>
+                        Periodicidade
+                    </th>
+                    <th>
+                        Data Inicial
+                    </th>
+                    <th>
+                        Data Final
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contribuinte in Model)
+                {
+                    <tr>
+                        <td>
+                            @contribuinte.NomePessoa
+                        </td>
+                        <td>
+                            @contribuinte.NomeResponsavel
+                        </td>
+                        <td>
+                            @contribuinte.NomeProjeto
+                        </td>
+                        <td>
+                            @contribuinte.ValorContribuicao
+                        </td>
+                        <td>
+                            @contribuinte.Periodicidade
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => contribuinte.DataInicio)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem => contribuinte.DataFim)
+                        </td>
+                        
+                        <td>
+                            <a href="#">Editar</a> |
+                            <a href="#">Deletar</a>
+                        </td>
+                        <td>
+                            <a asp-action="Create" class="btn custom-button" asp-controller="Contribuicao" asp-route-id="@contribuinte.Id"
+                               asp-route-valor="@contribuinte.ValorContribuicao">Criar Contribuição</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</grid>
