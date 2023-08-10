@@ -43,19 +43,19 @@
                 {
                     <tr>
                         <td>
-                            @contribuinte.NomePessoa
+                            @Html.DisplayFor(modelItem=>contribuinte.NomePessoa)
                         </td>
                         <td>
-                            @contribuinte.NomeResponsavel
+                            @Html.DisplayFor(modelItem=>contribuinte.NomeResponsavel)
                         </td>
                         <td>
-                            @contribuinte.NomeProjeto
+                            @Html.DisplayFor(modelItem=>contribuinte.NomeProjeto)
                         </td>
                         <td>
-                            @contribuinte.ValorContribuicao
+                            @Html.DisplayFor(modelItem=>contribuinte.ValorContribuicao)
                         </td>
                         <td>
-                            @contribuinte.Periodicidade
+                            @Html.DisplayFor(modelItem=> contribuinte.Periodicidade)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => contribuinte.DataInicio)
@@ -66,8 +66,8 @@
                         </td>
                         
                         <td>
-                            <a href="#">Editar</a> |
-                            <a href="#">Deletar</a>
+                            <a asp-action="Edit" asp-route-id="@contribuinte.Id">Editar</a> |
+                            <a asp-action="Delete" asp-route-id="@contribuinte.Id">Deletar</a>
                         </td>
                         <td>
                             <a asp-action="Create" class="btn custom-button" asp-controller="Contribuicao" asp-route-id="@contribuinte.Id"

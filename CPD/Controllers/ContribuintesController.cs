@@ -23,6 +23,7 @@ namespace CPD.Controllers
         {
             var contribuintes = _context.Contribuinte;
 
+
             var listaDeContribuintes = contribuintes.Select(contribuinte => new DTOContribuinte
             {
                 Id = contribuinte.Id,
@@ -111,12 +112,14 @@ namespace CPD.Controllers
                     // Preencha as outras propriedades da entidade Contribuinte, se houver
                 };
                 _context.Add(contribuinte);
+                
                 await _context.SaveChangesAsync();
-
                 await UpdateValorEstimadoProjeto(CreatePessoaDto.ProjetoId);
                 TempData["MensagemSucesso"] = "Doação foi salva com sucesso.";
+
             }
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Create");
         }
 
         // GET: Contribuintes/Edit/5

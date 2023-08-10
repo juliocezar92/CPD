@@ -44,10 +44,21 @@
         </form>
     </div>
 </div>
-
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Pessoas")';
+        }, 3000); // 3000 milissegundos = 3 segundos
+    </script>
+}
 <div>
     <a asp-action="Index">Cancelar</a>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

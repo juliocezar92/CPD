@@ -62,7 +62,8 @@ namespace CPD.Controllers
             {
                 _context.Add(pessoa);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["MensagemSucesso"] = "Salvo com sucesso.";
+                //return RedirectToAction(nameof(Index));
             }
             return View(pessoa);
         }
