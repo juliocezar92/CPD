@@ -19,10 +19,10 @@ namespace CPD.Controllers
         }
 
         // GET: Contribuicao
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int contribuinteId)
         {
             return _context.Contribuicao != null ?
-                        View(await _context.Contribuicao.ToListAsync()) :
+                        View(await _context.Contribuicao.Where(x => x.ContribuinteId == contribuinteId).ToListAsync()) :
                         Problem("Entity set 'Context.Contribuicao'  is null.");
         }
 

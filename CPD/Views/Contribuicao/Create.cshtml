@@ -55,7 +55,7 @@
     </div>
     <script>
         setTimeout(function() {
-            window.location.href = '@Url.Action("Index", "Contribuicao")';
+            window.location.href = '@Url.Action("Index", "Contribuicao", new { contribuinteId = @Model.ContribuinteId })';
         }, 3000); // 3000 milissegundos = 3 segundos
     </script>
 }

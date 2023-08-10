@@ -22,9 +22,27 @@ namespace CPD.Controllers
         // GET: Projetos
         public async Task<IActionResult> Index()
         {
-              return _context.Projeto != null ? 
-                          View(await _context.Projeto.ToListAsync()) :
-                          Problem("Entity set 'Context.Projeto'  is null.");
+            var projetos = await _context.Projeto.Select(x => new ProjetoDto
+            {
+                DataFim = x.DataFim,
+                DataInicio = x.DataInicio,
+                Id = x.Id,
+                Name = x.Name,
+                ValorEstimado = x.ValorEstimado
+            }).ToListAsync();
+
+            foreach (var projeto in projetos)
+            {
+                var contribuicoes = (from c in _context.Contribuinte
+                                     join co in _context.Contribuicao on c.Id equals co.ContribuinteId
+                                     where c.ProjetoId == projeto.Id
+                                     select co.ValorLiquido).ToList();
+                projeto.ValorArrecadado = contribuicoes.Sum();
+            }
+
+            return _context.Projeto != null ?
+                        View(projetos) :
+                        Problem("Entity set 'Context.Projeto'  is null.");
         }
 
         // GET: Projetos/Details/5
@@ -148,14 +166,14 @@ namespace CPD.Controllers
             {
                 _context.Projeto.Remove(projeto);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProjetoExists(int id)
         {
-          return (_context.Projeto?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Projeto?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

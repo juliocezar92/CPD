@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CPD.Dominio.Entidades.Projeto>
+﻿@model IEnumerable<CPD.Dominio.Entidades.ProjetoDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,6 +25,9 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.ValorEstimado)
+                    </th> 
+                    <th>
+                        @Html.DisplayNameFor(model => model.ValorArrecadado)
                     </th>
                     <th></th>
                 </tr>
@@ -44,6 +47,9 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.ValorEstimado)
+                        </td> 
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ValorArrecadado)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

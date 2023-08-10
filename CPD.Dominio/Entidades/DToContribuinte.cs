@@ -32,7 +32,7 @@ namespace CPD.Dominio.Entidades
         public string NomePessoa { get; set; }
         public string NomeResponsavel { get; set; }
         public List<PessoaSimplesDto> ListaDePessoas { get; set; } = new List<PessoaSimplesDto>();
-        public List<ProjetoDto> ListaDeProjetos { get; set; } = new List<ProjetoDto>();
+        public List<ProjetoSimplesDto> ListaDeProjetos { get; set; } = new List<ProjetoSimplesDto>();
         public List<PessoaSimplesDto> ListaDepessoasResponsavel { get; set; } = new List<PessoaSimplesDto>();
         public string NomeProjeto { get; set; }
     }
@@ -43,7 +43,7 @@ namespace CPD.Dominio.Entidades
         public string Nome { get; set; }
     }
 
-    public class ProjetoDto
+    public class ProjetoSimplesDto
     {
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -69,7 +69,7 @@ namespace CPD.Dominio.Entidades
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataFim { get; set; }
         public List<PessoaSimplesDto> ListaDePessoas { get; set; } = new List<PessoaSimplesDto>();
-        public List<ProjetoDto> ListaDeProjetos { get; set; } = new List<ProjetoDto>();
+        public List<ProjetoSimplesDto> ListaDeProjetos { get; set; } = new List<ProjetoSimplesDto>();
         public List<PessoaSimplesDto> ListaDepessoasResponsavel { get; set; } = new List<PessoaSimplesDto>();
 
     }

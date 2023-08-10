@@ -50,7 +50,7 @@ namespace CPD.Controllers
             {
                 ListaDePessoas = pessoasDevotos,
                 ListaDepessoasResponsavel = pessoasResponsaveis,
-                ListaDeProjetos = _context.Projeto.Select(x => new ProjetoDto { Id = x.Id, Nome = x.Name }).ToList(),
+                ListaDeProjetos = _context.Projeto.Select(x => new ProjetoSimplesDto { Id = x.Id, Nome = x.Name }).ToList(),
             };
 
             return View(model);
@@ -74,20 +74,6 @@ namespace CPD.Controllers
 
             return View(contribuinte);
         }
-        private async Task UpdateValorEstimadoProjeto(int projetoId)
-        {
-            var projeto = await _context.Projeto.FindAsync(projetoId);
-            if (projeto != null)
-            {
-                projeto.ValorEstimado = _context.Contribuinte
-                    .Where(c => c.ProjetoId == projetoId)
-                    .Sum(c => c.ValorContribuicao);
-
-                _context.Update(projeto);
-                await _context.SaveChangesAsync();
-            }
-        }
-
 
         // POST: Contribuintes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -114,7 +100,7 @@ namespace CPD.Controllers
                 _context.Add(contribuinte);
                 
                 await _context.SaveChangesAsync();
-                await UpdateValorEstimadoProjeto(CreatePessoaDto.ProjetoId);
+              
                 TempData["MensagemSucesso"] = "Doação foi salva com sucesso.";
 
             }
