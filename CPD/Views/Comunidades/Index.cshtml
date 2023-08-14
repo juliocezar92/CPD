@@ -1,14 +1,15 @@
-﻿@model IEnumerable<CPD.Dtos.PessoaDto>
+﻿@model IEnumerable<CPD.Dtos.ComunidadeDto>
 
 @{
-    ViewData["Title"] = "Pessoas";
+    ViewData["Title"] = "Comunidade";
 }
+
 <grid style="display: grid; grid-template-columns: 1fr auto;">
     <div style="grid-column: 1;margin-top:30px">
-        <h1>Pessoas</h1>
+        <h1>Comunidades</h1>
     </div>
     <div style="grid-column: 2;">
-        <a asp-action="Create" class="btn custom-button" style="justify-self: end; margin-top:30px">Cadastrar Pessoas</a>
+        <a asp-action="Create" class="btn custom-button" style="justify-self: end; margin-top:30px">Cadastrar Comunidade</a>
     </div>
     <div style="grid-column: 1 / span 2; margin-top:20px">
         <table class="table table-striped table-bordered">
@@ -18,16 +19,7 @@
                         @Html.DisplayNameFor(model => model.Nome)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Telefone)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Endereco)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.TipoPessoa)
                     </th>
                     <th></th>
                 </tr>
@@ -40,16 +32,7 @@
                             @Html.DisplayFor(modelItem => item.Nome)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Telefone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Endereco)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TipoPessoa)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

@@ -24,7 +24,7 @@ namespace CPD.Controllers
             var contribuintes = _context.Contribuinte;
 
 
-            var listaDeContribuintes = contribuintes.Select(contribuinte => new DTOContribuinte
+            var listaDeContribuintes = contribuintes.Select(contribuinte => new ContribuinteDto
             {
                 Id = contribuinte.Id,
                 PessoaId = contribuinte.PessoaId,
@@ -46,7 +46,7 @@ namespace CPD.Controllers
             // Filtrar as pessoas com TipoPessoa.Devoto
             var pessoasResponsaveis = _context.Pessoa.Where(x => x.TipoPessoa == TipoPessoa.Responsavel).Select(x => new PessoaSimplesDto { Id = x.Id, Nome = x.Nome }).ToList();
             var pessoasDevotos = _context.Pessoa.Where(x => x.TipoPessoa == TipoPessoa.Devoto).Select(x => new PessoaSimplesDto { Id = x.Id, Nome = x.Nome }).ToList();
-            var model = new DTOContribuinte
+            var model = new ContribuinteDto
             {
                 ListaDePessoas = pessoasDevotos,
                 ListaDepessoasResponsavel = pessoasResponsaveis,

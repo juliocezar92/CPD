@@ -11,98 +11,93 @@ using CPD.Dtos;
 
 namespace CPD.Controllers
 {
-    public class PessoasController : Controller
+    public class ComunidadesController : Controller
     {
         private readonly Context _context;
 
-        public PessoasController(Context context)
+        public ComunidadesController(Context context)
         {
             _context = context;
         }
 
-        // GET: Pessoas
+        // GET: Comunidades
         public async Task<IActionResult> Index()
         {
-            var  pessoa = _context.Pessoa;
+            var comunidade = _context.Comunidade;
 
-            var listaDePessoas = pessoa.Select(pessoa => new PessoaDto
+            var listaComunidades = comunidade.Select(comunidade => new ComunidadeDto
             {
-                Id = pessoa.Id,
-                Nome = pessoa.Nome,
-                Telefone = pessoa.Telefone,
-                Email = pessoa.Email,
-                Endereco = pessoa.Endereco,
-                TipoPessoa = pessoa.TipoPessoa
-            }
-            ).ToList();
-            return View(listaDePessoas);          
+                Id = comunidade.Id,
+                Nome = comunidade.Nome,
+                Endereco = comunidade.Endereco,
+            }).ToList();
+            return View(listaComunidades);  
         }
 
-        // GET: Pessoas/Details/5
+        // GET: Comunidades/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Pessoa == null)
+            if (id == null || _context.Comunidade == null)
             {
                 return NotFound();
             }
 
-            var pessoa = await _context.Pessoa
+            var comunidade = await _context.Comunidade
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
+            if (comunidade == null)
             {
                 return NotFound();
             }
 
-            return View(pessoa);
+            return View(comunidade);
         }
 
-        // GET: Pessoas/Create
+        // GET: Comunidades/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pessoas/Create
+        // POST: Comunidades/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Telefone,Email,Endereco,TipoPessoa")] Pessoa pessoa)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Endereco")] Comunidade comunidade)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pessoa);
+                _context.Add(comunidade);
                 await _context.SaveChangesAsync();
-                TempData["MensagemSucesso"] = "Salvo com sucesso.";
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
-            return View(pessoa);
+            return View(comunidade);
         }
 
-        // GET: Pessoas/Edit/5
+        // GET: Comunidades/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Pessoa == null)
+            if (id == null || _context.Comunidade == null)
             {
                 return NotFound();
             }
 
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            if (pessoa == null)
+            var comunidade = await _context.Comunidade.FindAsync(id);
+            if (comunidade == null)
             {
                 return NotFound();
             }
-            return View(pessoa);
+            return View(comunidade);
         }
 
-        // POST: Pessoas/Edit/5
+        // POST: Comunidades/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Telefone,Email,Endereco,TipoPessoa")] Pessoa pessoa)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Endereco")] Comunidade comunidade)
         {
-            if (id != pessoa.Id)
+            if (id != comunidade.Id)
             {
                 return NotFound();
             }
@@ -111,12 +106,12 @@ namespace CPD.Controllers
             {
                 try
                 {
-                    _context.Update(pessoa);
+                    _context.Update(comunidade);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PessoaExists(pessoa.Id))
+                    if (!ComunidadeExists(comunidade.Id))
                     {
                         return NotFound();
                     }
@@ -127,49 +122,49 @@ namespace CPD.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pessoa);
+            return View(comunidade);
         }
 
-        // GET: Pessoas/Delete/5
+        // GET: Comunidades/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Pessoa == null)
+            if (id == null || _context.Comunidade == null)
             {
                 return NotFound();
             }
 
-            var pessoa = await _context.Pessoa
+            var comunidade = await _context.Comunidade
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (pessoa == null)
+            if (comunidade == null)
             {
                 return NotFound();
             }
 
-            return View(pessoa);
+            return View(comunidade);
         }
 
-        // POST: Pessoas/Delete/5
+        // POST: Comunidades/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Pessoa == null)
+            if (_context.Comunidade == null)
             {
-                return Problem("Entity set 'Context.Pessoa'  is null.");
+                return Problem("Entity set 'Context.Comunidade'  is null.");
             }
-            var pessoa = await _context.Pessoa.FindAsync(id);
-            if (pessoa != null)
+            var comunidade = await _context.Comunidade.FindAsync(id);
+            if (comunidade != null)
             {
-                _context.Pessoa.Remove(pessoa);
+                _context.Comunidade.Remove(comunidade);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PessoaExists(int id)
+        private bool ComunidadeExists(int id)
         {
-          return (_context.Pessoa?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Comunidade?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

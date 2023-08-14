@@ -52,5 +52,7 @@ namespace CPD.Data
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<CPD.Dominio.Entidades.Comunidade> Comunidade { get; set; } = default!;
     }
 }

@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace CPD.Dominio.Entidades
 {
-    public class DTOContribuinte
+    public class ContribuinteDto
     {
         public int Id { get; set; }
         public int PessoaId { get; set; }
