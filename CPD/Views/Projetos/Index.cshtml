@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CPD.Dominio.Entidades.ProjetoDto>
+﻿@model IEnumerable<CPD.Dtos.ProjetoDto>
 
 @{
     ViewData["Title"] = "Projetos";
@@ -16,6 +16,9 @@
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ComunidadeId)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.DataInicio)
@@ -38,6 +41,9 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeComunidade)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.DataInicio)

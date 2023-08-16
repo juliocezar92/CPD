@@ -10,6 +10,9 @@ namespace CPD.Dominio.Entidades
     public class Projeto
     {
         public int Id { get; set; }
+        public int ComunidadeId { get; set; }
+        public virtual Comunidade Comunidade { get; set; }
+        [Display(Name ="Nome")]
         public string Name { get; set; }
         [Display(Name = "Data Inicial")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]

@@ -1,4 +1,4 @@
-﻿@model CPD.Dominio.Entidades.Projeto
+﻿@model CPD.Dtos.ProjetoDto
 
 @{
     ViewData["Title"] = "Criar Projeto";
@@ -13,10 +13,16 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="ComunidadeId" class="control-label">Comunidade:</label>
+                <select asp-for="ComunidadeId" asp-items="@(new SelectList(Model?.ListadeComunidades, "Id", "Nome"))" class="form-control">
+                    <option value="">Selecione a comunidade</option>
+                </select>
+                <span asp-validation-for="ComunidadeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="DataInicio" class="control-label"></label>
                 <input asp-for="DataInicio" class="form-control" />
@@ -38,7 +44,17 @@
         </form>
     </div>
 </div>
-
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+    <script>
+        setTimeout(function () {
+            window.location.href = '@Url.Action("Index", "Projetos")';
+        }, 3000); // 3000 milissegundos = 3 segundos
+    </script>
+}
 <div>
     <a asp-action="Index">Cancelar</a>
 </div>

@@ -12,18 +12,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230809114501_Atualizacao1.0.1")]
-    partial class Atualizacao101
+    [Migration("20230816152320_1.0.2")]
+    partial class _102
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Comunidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comunidade");
+                });
 
             modelBuilder.Entity("CPD.Dominio.Entidades.Contribuicao", b =>
                 {
@@ -33,17 +54,15 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ContribuinteId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataContribuicao")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataFim")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PessoaId")
-                        .HasColumnType("int");
+                    b.Property<string>("NomeContribuinte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TipoContribuicao")
                         .HasColumnType("int");
@@ -55,6 +74,8 @@ namespace CPD.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContribuinteId");
 
                     b.ToTable("Contribuicao");
                 });
@@ -108,7 +129,7 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ContribuicaoId")
+                    b.Property<int>("ComunidadeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -132,7 +153,7 @@ namespace CPD.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContribuicaoId");
+                    b.HasIndex("ComunidadeId");
 
                     b.ToTable("Pessoa");
                 });
@@ -145,6 +166,9 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataFim")
                         .HasColumnType("datetime2");
 
@@ -155,12 +179,29 @@ namespace CPD.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NomeComunidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ValorEstimado")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComunidadeId");
+
                     b.ToTable("Projeto");
+                });
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Contribuicao", b =>
+                {
+                    b.HasOne("CPD.Dominio.Entidades.Contribuinte", "Contribuinte")
+                        .WithMany()
+                        .HasForeignKey("ContribuinteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contribuinte");
                 });
 
             modelBuilder.Entity("CPD.Dominio.Entidades.Contribuinte", b =>
@@ -192,14 +233,24 @@ namespace CPD.Migrations
 
             modelBuilder.Entity("CPD.Dominio.Entidades.Pessoa", b =>
                 {
-                    b.HasOne("CPD.Dominio.Entidades.Contribuicao", null)
-                        .WithMany("ListaDePessoas")
-                        .HasForeignKey("ContribuicaoId");
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
                 });
 
-            modelBuilder.Entity("CPD.Dominio.Entidades.Contribuicao", b =>
+            modelBuilder.Entity("CPD.Dominio.Entidades.Projeto", b =>
                 {
-                    b.Navigation("ListaDePessoas");
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
                 });
 #pragma warning restore 612, 618
         }

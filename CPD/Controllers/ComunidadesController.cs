@@ -87,7 +87,13 @@ namespace CPD.Controllers
             {
                 return NotFound();
             }
-            return View(comunidade);
+            var comunidadeDto = new ComunidadeDto
+            {
+                Id = comunidade.Id,
+                Nome = comunidade.Nome,
+                Endereco = comunidade.Endereco
+            };
+            return View(comunidadeDto);
         }
 
         // POST: Comunidades/Edit/5
@@ -139,8 +145,14 @@ namespace CPD.Controllers
             {
                 return NotFound();
             }
+            var comunidadeDto = new ComunidadeDto
+            {
+                Id = comunidade.Id,
+                Nome = comunidade.Nome,
+                Endereco = comunidade.Endereco
+            };
 
-            return View(comunidade);
+            return View(comunidadeDto);
         }
 
         // POST: Comunidades/Delete/5

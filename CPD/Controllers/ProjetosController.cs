@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CPD.Data;
 using CPD.Dominio.Entidades;
+using CPD.Dtos;
 
 namespace CPD.Controllers
 {
@@ -25,10 +21,13 @@ namespace CPD.Controllers
             var projetos = await _context.Projeto.Select(x => new ProjetoDto
             {
                 DataFim = x.DataFim,
+                ComunidadeId = x.ComunidadeId,
                 DataInicio = x.DataInicio,
                 Id = x.Id,
                 Name = x.Name,
-                ValorEstimado = x.ValorEstimado
+                ValorEstimado = x.ValorEstimado,
+                NomeComunidade = x.Comunidade.Nome
+                
             }).ToListAsync();
 
             foreach (var projeto in projetos)
@@ -40,9 +39,7 @@ namespace CPD.Controllers
                 projeto.ValorArrecadado = contribuicoes.Sum();
             }
 
-            return _context.Projeto != null ?
-                        View(projetos) :
-                        Problem("Entity set 'Context.Projeto'  is null.");
+            return View(projetos);
         }
 
         // GET: Projetos/Details/5
@@ -66,26 +63,40 @@ namespace CPD.Controllers
         // GET: Projetos/Create
         public IActionResult Create()
         {
-
-            return View();
+            var model = new ProjetoDto
+            {
+                ListadeComunidades = _context.Comunidade.Select(x => new ComunidadeDto { Id = x.Id, Nome = x.Nome }).ToList()
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DataInicio,DataFim,ValorEstimado")] Projeto projeto)
+        public async Task<IActionResult> Create(ProjetoDto projeto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(projeto);
+                var projetos = new Projeto
+                {
+                    Id = projeto.Id,
+                    Name = projeto.Name,
+                    ValorEstimado = projeto.ValorEstimado,
+                    ComunidadeId = projeto.ComunidadeId,
+                    DataFim = projeto.DataFim,
+                    DataInicio = projeto.DataInicio
+                };
+                _context.Add(projetos);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
+            TempData["MensagemSucesso"] = "Salvo com sucesso.";
+
             return View(projeto);
         }
 
         // GET: Projetos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null || _context.Projeto == null)
             {
                 return NotFound();
@@ -96,7 +107,17 @@ namespace CPD.Controllers
             {
                 return NotFound();
             }
-            return View(projeto);
+            var projetoDto = new ProjetoDto
+            {
+                Id = projeto.Id,
+                Name = projeto.Name,
+                ComunidadeId = projeto.ComunidadeId,
+                DataInicio = projeto.DataInicio,
+                DataFim = projeto.DataFim,
+                ValorEstimado = projeto.ValorEstimado,
+                ListadeComunidades = _context.Comunidade.Select(x => new ComunidadeDto { Id = x.Id, Nome = x.Nome }).ToList()
+            };
+            return View(projetoDto);
         }
 
         // POST: Projetos/Edit/5
@@ -104,9 +125,9 @@ namespace CPD.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DataInicio,DataFim,ValorEstimado")] Projeto projeto)
+        public async Task<IActionResult> Edit(int id, ProjetoDto projetoDto)
         {
-            if (id != projeto.Id)
+            if (id != projetoDto.Id)
             {
                 return NotFound();
             }
@@ -115,12 +136,26 @@ namespace CPD.Controllers
             {
                 try
                 {
+                    var projeto = await _context.Projeto.FindAsync(projetoDto.Id);
+
+                    if (projeto == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Atualize as propriedades do objeto "projeto" com os valores do "projetoDto"
+                    projeto.Name = projetoDto.Name;
+                    projeto.ComunidadeId = projetoDto.ComunidadeId;
+                    projeto.DataInicio = projetoDto.DataInicio;
+                    projeto.DataFim = projetoDto.DataFim;
+                    projeto.ValorEstimado = projetoDto.ValorEstimado;
+
                     _context.Update(projeto);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjetoExists(projeto.Id))
+                    if (!ProjetoExists(projetoDto.Id))
                     {
                         return NotFound();
                     }
@@ -131,7 +166,7 @@ namespace CPD.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(projeto);
+            return View(projetoDto);
         }
 
         // GET: Projetos/Delete/5
@@ -149,7 +184,17 @@ namespace CPD.Controllers
                 return NotFound();
             }
 
-            return View(projeto);
+            var projetoDto = new ProjetoDto
+            {
+                Id = projeto.Id,
+                Name = projeto.Name,
+                ComunidadeId = projeto.ComunidadeId,
+                DataInicio = projeto.DataInicio,
+                DataFim = projeto.DataFim,
+                ValorEstimado = projeto.ValorEstimado
+            };
+
+            return View(projetoDto);
         }
 
         // POST: Projetos/Delete/5
@@ -161,6 +206,7 @@ namespace CPD.Controllers
             {
                 return Problem("Entity set 'Context.Projeto'  is null.");
             }
+
             var projeto = await _context.Projeto.FindAsync(id);
             if (projeto != null)
             {

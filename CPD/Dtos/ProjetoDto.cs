@@ -6,11 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace CPD.Dominio.Entidades
+namespace CPD.Dtos
 {
     public class ProjetoDto
     {
         public int Id { get; set; }
+        [Display(Name = "Comunidade")]
+        public int ComunidadeId { get; set; }
+        public string NomeComunidade { get; set; }
+        [Display(Name = "Nome")]
         public string Name { get; set; }
         [Display(Name = "Data Inicial")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -25,5 +29,6 @@ namespace CPD.Dominio.Entidades
         [Display(Name = "Valor Arrecadado")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal ValorArrecadado { get; set; }
+        public List<ComunidadeDto> ListadeComunidades { get; set; } = new List<ComunidadeDto>();
     }
 }

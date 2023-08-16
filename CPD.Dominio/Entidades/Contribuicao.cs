@@ -7,6 +7,7 @@ namespace CPD.Dominio.Entidades
     {
         public int Id { get; set; }
         public int ContribuinteId { get; set; }
+        public string NomeContribuinte { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal Valor { get; set; }

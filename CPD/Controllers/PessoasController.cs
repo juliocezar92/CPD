@@ -28,11 +28,13 @@ namespace CPD.Controllers
             var listaDePessoas = pessoa.Select(pessoa => new PessoaDto
             {
                 Id = pessoa.Id,
+                ComunidadeId = pessoa.ComunidadeId,
                 Nome = pessoa.Nome,
                 Telefone = pessoa.Telefone,
                 Email = pessoa.Email,
                 Endereco = pessoa.Endereco,
-                TipoPessoa = pessoa.TipoPessoa
+                TipoPessoa = pessoa.TipoPessoa,
+                NomeComunidade = pessoa.Comunidade.Nome
             }
             ).ToList();
             return View(listaDePessoas);          
@@ -59,7 +61,12 @@ namespace CPD.Controllers
         // GET: Pessoas/Create
         public IActionResult Create()
         {
-            return View();
+            
+            var model = new PessoaDto
+            {
+                ListadeComunidades = _context.Comunidade.Select(x => new ComunidadeDto { Id = x.Id, Nome = x.Nome }).ToList()
+            };
+            return View(model);
         }
 
         // POST: Pessoas/Create
@@ -67,14 +74,25 @@ namespace CPD.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Telefone,Email,Endereco,TipoPessoa")] Pessoa pessoa)
+        public async Task<IActionResult> Create( PessoaDto pessoa)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pessoa);
+                var pessoaModel = new Pessoa
+                {
+                    Nome = pessoa.Nome,
+                    ComunidadeId = pessoa.ComunidadeId,
+                    Email = pessoa.Email,
+                    Endereco = pessoa.Endereco,
+                    Telefone = pessoa.Telefone,
+                    TipoPessoa = pessoa.TipoPessoa
+                };
+                _context.Add(pessoaModel);
+
                 await _context.SaveChangesAsync();
+
                 TempData["MensagemSucesso"] = "Salvo com sucesso.";
-                //return RedirectToAction(nameof(Index));
+
             }
             return View(pessoa);
         }
@@ -92,7 +110,18 @@ namespace CPD.Controllers
             {
                 return NotFound();
             }
-            return View(pessoa);
+            var pessoaDto = new PessoaDto
+            {
+                Nome = pessoa.Nome,
+                ComunidadeId = pessoa.ComunidadeId,
+                Email = pessoa.Email,
+                Endereco = pessoa.Endereco,
+                Telefone = pessoa.Telefone,
+                TipoPessoa = pessoa.TipoPessoa,
+                ListadeComunidades = _context.Comunidade.Select(x => new ComunidadeDto { Id = x.Id, Nome = x.Nome }).ToList()
+            };
+
+            return View(pessoaDto);
         }
 
         // POST: Pessoas/Edit/5
@@ -144,8 +173,17 @@ namespace CPD.Controllers
             {
                 return NotFound();
             }
+            var pessoaDto = new PessoaDto
+            {
+                Nome = pessoa.Nome,
+                ComunidadeId = pessoa.ComunidadeId,
+                Email = pessoa.Email,
+                Endereco = pessoa.Endereco,
+                Telefone = pessoa.Telefone,
+                TipoPessoa = pessoa.TipoPessoa
+            };
 
-            return View(pessoa);
+            return View(pessoaDto);
         }
 
         // POST: Pessoas/Delete/5

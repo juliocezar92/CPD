@@ -14,6 +14,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
+                <label asp-for="ComunidadeId" class="control-label">Comunidade:</label>
+                <select asp-for="ComunidadeId" asp-items="@(new SelectList(Model?.ListadeComunidades, "Id", "Nome"))" class="form-control">
+                    <option value="">Selecione a comunidade</option>
+                </select>
+                <span asp-validation-for="ComunidadeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>

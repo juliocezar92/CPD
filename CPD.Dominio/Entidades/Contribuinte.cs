@@ -33,6 +33,7 @@ namespace CPD.Dominio.Entidades
         [Display(Name = "Pessoa Responsavel")]
         public virtual Pessoa PessoaResponsavel { get; set; }
         public int ProjetoId { get; set; }
+
         public virtual Projeto Projeto { get; set; }
      
     }

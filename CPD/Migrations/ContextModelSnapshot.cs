@@ -57,6 +57,10 @@ namespace CPD.Migrations
                     b.Property<DateTime>("DataContribuicao")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("NomeContribuinte")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TipoContribuicao")
                         .HasColumnType("int");
 
@@ -122,6 +126,9 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -143,6 +150,8 @@ namespace CPD.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComunidadeId");
+
                     b.ToTable("Pessoa");
                 });
 
@@ -154,6 +163,9 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DataFim")
                         .HasColumnType("datetime2");
 
@@ -164,10 +176,16 @@ namespace CPD.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NomeComunidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("ValorEstimado")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComunidadeId");
 
                     b.ToTable("Projeto");
                 });
@@ -208,6 +226,28 @@ namespace CPD.Migrations
                     b.Navigation("PessoaResponsavel");
 
                     b.Navigation("Projeto");
+                });
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Pessoa", b =>
+                {
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
+                });
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Projeto", b =>
+                {
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
                 });
 #pragma warning restore 612, 618
         }

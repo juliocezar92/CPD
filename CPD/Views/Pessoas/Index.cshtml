@@ -18,6 +18,9 @@
                         @Html.DisplayNameFor(model => model.Nome)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.ComunidadeId)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Telefone)
                     </th>
                     <th>
@@ -38,6 +41,9 @@
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Nome)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeComunidade)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Telefone)

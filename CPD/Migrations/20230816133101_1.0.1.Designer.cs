@@ -12,18 +12,39 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CPD.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230809151410_Atualizacao1.0.2")]
-    partial class Atualizacao102
+    [Migration("20230816133101_1.0.1")]
+    partial class _101
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Comunidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Endereco")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comunidade");
+                });
 
             modelBuilder.Entity("CPD.Dominio.Entidades.Contribuicao", b =>
                 {
@@ -104,6 +125,9 @@ namespace CPD.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -125,6 +149,8 @@ namespace CPD.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComunidadeId");
+
                     b.ToTable("Pessoa");
                 });
 
@@ -135,6 +161,9 @@ namespace CPD.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ComunidadeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DataFim")
                         .HasColumnType("datetime2");
@@ -150,6 +179,8 @@ namespace CPD.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ComunidadeId");
 
                     b.ToTable("Projeto");
                 });
@@ -190,6 +221,28 @@ namespace CPD.Migrations
                     b.Navigation("PessoaResponsavel");
 
                     b.Navigation("Projeto");
+                });
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Pessoa", b =>
+                {
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
+                });
+
+            modelBuilder.Entity("CPD.Dominio.Entidades.Projeto", b =>
+                {
+                    b.HasOne("CPD.Dominio.Entidades.Comunidade", "Comunidade")
+                        .WithMany()
+                        .HasForeignKey("ComunidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comunidade");
                 });
 #pragma warning restore 612, 618
         }

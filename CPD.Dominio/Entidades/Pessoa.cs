@@ -12,6 +12,8 @@ namespace CPD.Dominio.Entidades
     public class Pessoa
     {
         public int Id { get; set; }
+        public int ComunidadeId { get; set; }
+        public virtual Comunidade Comunidade { get; set; }
         public string Nome { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }

@@ -1,11 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CPD.Data;
 using CPD.Dominio.Entidades;
-using CPD.Dominio.Enum;
-using System.Globalization;
+
 
 namespace CPD.Controllers
 {
@@ -81,22 +79,25 @@ namespace CPD.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContribuinteId,NomeContribuinte,Valor,ValorLiquido,DataContribuicao,TipoContribuicao")] CreateContribuicaoDto request)
+        public async Task<IActionResult> Create(CreateContribuicaoDto request)
         {
             if (ModelState.IsValid)
             {
                 var contribuicao = new Contribuicao
                 {
                     ContribuinteId = request.ContribuinteId,
+                    NomeContribuinte = request.NomeContribuinte,
                     Valor = request.Valor,
                     DataContribuicao = DateTime.Now,
                     TipoContribuicao = request.TipoContribuicao,
                     ValorLiquido = request.ValorLiquido
                 };
                 _context.Contribuicao.Add(contribuicao);
+
                 await _context.SaveChangesAsync();
+
                 TempData["MensagemSucesso"] = "Contribuição foi salva com sucesso.";
-                // return RedirectToAction(nameof(Index));
+
             }
             return View(request);
         }

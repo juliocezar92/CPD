@@ -6,44 +6,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CPD.Migrations
 {
     /// <inheritdoc />
-    public partial class Atualizacao101 : Migration
+    public partial class _101 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Contribuicao",
+                name: "Comunidade",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PessoaId = table.Column<int>(type: "int", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ValorLiquido = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DataContribuicao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TipoContribuicao = table.Column<int>(type: "int", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contribuicao", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Projeto",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ValorEstimado = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Projeto", x => x.Id);
+                    table.PrimaryKey("PK_Comunidade", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,21 +31,45 @@ namespace CPD.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ComunidadeId = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Endereco = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TipoPessoa = table.Column<int>(type: "int", nullable: false),
-                    ContribuicaoId = table.Column<int>(type: "int", nullable: true)
+                    TipoPessoa = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pessoa", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pessoa_Contribuicao_ContribuicaoId",
-                        column: x => x.ContribuicaoId,
-                        principalTable: "Contribuicao",
-                        principalColumn: "Id");
+                        name: "FK_Pessoa_Comunidade_ComunidadeId",
+                        column: x => x.ComunidadeId,
+                        principalTable: "Comunidade",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projeto",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ComunidadeId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataFim = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ValorEstimado = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projeto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projeto_Comunidade_ComunidadeId",
+                        column: x => x.ComunidadeId,
+                        principalTable: "Comunidade",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,6 +109,34 @@ namespace CPD.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Contribuicao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContribuinteId = table.Column<int>(type: "int", nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ValorLiquido = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DataContribuicao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TipoContribuicao = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contribuicao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contribuicao_Contribuinte_ContribuinteId",
+                        column: x => x.ContribuinteId,
+                        principalTable: "Contribuinte",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contribuicao_ContribuinteId",
+                table: "Contribuicao",
+                column: "ContribuinteId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Contribuinte_PessoaId",
                 table: "Contribuinte",
@@ -122,14 +153,22 @@ namespace CPD.Migrations
                 column: "ProjetoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pessoa_ContribuicaoId",
+                name: "IX_Pessoa_ComunidadeId",
                 table: "Pessoa",
-                column: "ContribuicaoId");
+                column: "ComunidadeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projeto_ComunidadeId",
+                table: "Projeto",
+                column: "ComunidadeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Contribuicao");
+
             migrationBuilder.DropTable(
                 name: "Contribuinte");
 
@@ -140,7 +179,7 @@ namespace CPD.Migrations
                 name: "Projeto");
 
             migrationBuilder.DropTable(
-                name: "Contribuicao");
+                name: "Comunidade");
         }
     }
 }
