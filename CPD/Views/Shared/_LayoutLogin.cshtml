@@ -72,43 +72,13 @@
         .mynav_dropdown:hover .mynav_dropdown-content {
             display: block;
         }
+
+        }
     </style>
 
 </head>
 <body>
-    <header>
-        <nav class="mynav_navbar">
-            <div class="">
-                <div class="mynav_navbar">
-                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/css/CPD.png" width="40px" /></a>
-                    @*--------------Menu---------------*@
-                    <div class="mynav_dropdown">
-                        <button class="mynav_dropbtn">
-                            Menu
-                            <i class="fa fa-caret-down"></i>
-                        </button>
-                        <div class="mynav_dropdown-content">
-                            <a class="nav-link " asp-area="" asp-controller="Comunidades" asp-action="Index">Comunidades</a>
-                            <a class="nav-link " asp-area="" asp-controller="Pessoas" asp-action="Index">Pessoas</a>
-                            <a class="nav-link " asp-area="" asp-controller="Contribuintes" asp-action="Index">Doações</a>
-                            <a class="nav-link " asp-area="" asp-controller="Projetos" asp-action="Index">Projetos</a>
-                            @*  <a class="nav-link " asp-area="" asp-controller="Contribuicao" asp-action="Create">Cadastrar Contribuições</a>*@
-                        </div>
-                    </div>
-                    @*-------------fim Menu-----------------*@
-                    @*<div style="text-align:right">
-                    @Html.Partial("_LoginPartial")
-                    </div>*@
-                    <div class="mynav_dropdown" style="text-align:right">
-                        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                    </div>
-                    @*<div class="mynav_dropdown" style="text-align:right">
-                    <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Registrar</a>
-                    </div>*@
-                </div>
-            </div>
-        </nav>
-    </header>
+    
 
 
     <div class="container">

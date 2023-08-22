@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\ImgLogin.png" />
+    <None Include="wwwroot\css\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -20,6 +27,10 @@
     <ProjectReference Include="..\CPD.Api\CPD.Api.csproj" />
     <ProjectReference Include="..\CPD.Dominio\CPD.Dominio.csproj" />
     <ProjectReference Include="..\CPD.Infraestrutura\CPD.Infraestrutura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\Img\" />
   </ItemGroup>
 
 </Project>

@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CPD.Dominio.Entidades;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CPD.Areas.Identity.Data;
 
 namespace CPD.Data
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<CPDUser>
     {
 
         public Context (DbContextOptions<Context> options)
